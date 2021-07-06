@@ -19,13 +19,16 @@
         </div>
         <form class="add-book-form" id="add-book-form">
             <div class="field">
-                <input type="text" id="book-title">
+                <input type="text" id="book-title" placeholder="Title" required>
+                <p id="title-error"></p>
             </div>
             <div class="field">
-                <input type="text" id="book-author">
+                <input type="text" id="book-author" placeholder="Author" required>
+                <p id="author-error"></p>
             </div>
             <div class="field">
                 <input type="submit" value="Add" id="add-book-button">
+                
             </div>
         </form>
         </main>
