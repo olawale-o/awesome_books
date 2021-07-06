@@ -1,3 +1,4 @@
+/*eslint max-classes-per-file: "error"*/
 window.addEventListener('DOMContentLoaded', () => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
@@ -105,7 +106,7 @@ window.addEventListener('DOMContentLoaded', () => {
         titleError.textContent = '';
         authorError.textContent = '';
         const bookObject = new Book(title.value, author.value);
-        bookCollection.addBook(bookObject);
+        this.addBook(bookObject);
         title.value = '';
         author.value = '';
       }
@@ -117,6 +118,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   addButton.addEventListener('click', (event) => {
     event.preventDefault();
-    bookCollection.validate()
+    bookCollection.validate();
   });
 });
