@@ -59,8 +59,11 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    addBook(bookObject) {
+    #addBook(bookObject) {
       bookObject.id = Date.now();
+      if(this.#isStorage()) {
+        this.bookArray = this.getStorage();
+      }
       this.bookArray.unshift(bookObject);
       this.#setStorage(this.bookArray);
       bookList.prepend(this.#createBook(bookObject));
@@ -106,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
         titleError.textContent = '';
         authorError.textContent = '';
         const bookObject = new Book(title.value, author.value);
-        this.addBook(bookObject);
+        this.#addBook(bookObject);
         title.value = '';
         author.value = '';
       }
