@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
       this.author = author;
     }
   }
-  
+
   class BookList {
     constructor() {
       this.bookArray = [];
@@ -21,14 +21,14 @@ window.addEventListener('DOMContentLoaded', () => {
       this.border = '2px solid #000';
     }
 
-    #createBook(book, bookNumber) {
+    #createBook(book) {
       const bookItem = document.createElement('li');
       bookItem.setAttribute('id', `book${book.id}`);
       bookItem.setAttribute('class', 'book-item');
       const bookDiv = document.createElement('div');
       bookDiv.setAttribute('class', 'book');
       const bookTitleAuthor = document.createElement('div');
-      bookTitleAuthor.setAttribute('class', 'book__title-author')
+      bookTitleAuthor.setAttribute('class', 'book__title-author');
       const h1 = document.createElement('h1');
       h1.setAttribute('class', 'title');
       h1.textContent = `"${book.title}"`;
@@ -44,14 +44,14 @@ window.addEventListener('DOMContentLoaded', () => {
       removeButton.onclick = () => {
         this.removeBook(book.id);
       };
-  
+
       bookTitleAuthor.appendChild(h1);
       bookTitleAuthor.appendChild(bySpan);
       bookTitleAuthor.appendChild(p);
-      bookDiv.appendChild(bookTitleAuthor)
+      bookDiv.appendChild(bookTitleAuthor);
       bookDiv.appendChild(removeButton);
       bookItem.appendChild(bookDiv);
-  
+
       return bookItem;
     }
 
@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     #addBook(bookObject) {
       bookObject.id = Date.now();
-      if(this.#isStorage()) {
+      if (this.#isStorage()) {
         this.bookArray = this.getStorage();
       }
       this.bookArray.unshift(bookObject);
