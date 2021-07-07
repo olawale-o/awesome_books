@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     #addBook(bookObject) {
       bookObject.id = Date.now();
-      if(this.#isStorage()) {
+      if (this.#isStorage()) {
         this.bookArray = this.getStorage();
       }
       this.bookArray.unshift(bookObject);
