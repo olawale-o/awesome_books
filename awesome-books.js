@@ -13,39 +13,45 @@ window.addEventListener('DOMContentLoaded', () => {
       this.author = author;
     }
   }
-
+  
   class BookList {
     constructor() {
       this.bookArray = [];
       this.key = 'books';
+      this.border = '2px solid #000';
     }
 
-    #createBook(book) {
+    #createBook(book, bookNumber) {
       const bookItem = document.createElement('li');
       bookItem.setAttribute('id', `book${book.id}`);
+      bookItem.setAttribute('class', 'book-item');
       const bookDiv = document.createElement('div');
       bookDiv.setAttribute('class', 'book');
+      const bookTitleAuthor = document.createElement('div');
+      bookTitleAuthor.setAttribute('class', 'book__title-author')
       const h1 = document.createElement('h1');
       h1.setAttribute('class', 'title');
-      h1.textContent = book.title;
+      h1.textContent = `"${book.title}"`;
+      const bySpan = document.createElement('span');
+      bySpan.textContent = ' by ';
+      bySpan.setAttribute('class', 'by');
       const p = document.createElement('p');
       p.setAttribute('class', 'authour');
-      p.textContent = book.author;
-      const hr = document.createElement('hr');
+      p.textContent = `${book.author}`;
       const removeButton = document.createElement('button');
       removeButton.textContent = 'Remove';
-      removeButton.setAttribute('class', 'btn');
       removeButton.setAttribute('class', 'btn');
       removeButton.onclick = () => {
         this.removeBook(book.id);
       };
-
-      bookDiv.appendChild(h1);
-      bookDiv.appendChild(p);
-      bookDiv.appendChild(hr);
+  
+      bookTitleAuthor.appendChild(h1);
+      bookTitleAuthor.appendChild(bySpan);
+      bookTitleAuthor.appendChild(p);
+      bookDiv.appendChild(bookTitleAuthor)
       bookDiv.appendChild(removeButton);
       bookItem.appendChild(bookDiv);
-
+  
       return bookItem;
     }
 
@@ -57,6 +63,7 @@ window.addEventListener('DOMContentLoaded', () => {
           bookList.appendChild(this.#createBook(book));
         }
       }
+      this.#isChildrenInDom();
     }
 
     #addBook(bookObject) {
@@ -67,6 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
       this.bookArray.unshift(bookObject);
       this.#setStorage(this.bookArray);
       bookList.prepend(this.#createBook(bookObject));
+      this.#isChildrenInDom();
     }
 
     removeBook(bookId) {
@@ -74,6 +82,7 @@ window.addEventListener('DOMContentLoaded', () => {
       bookToRemove.parentNode.removeChild(bookToRemove);
       this.bookArray = this.getStorage().filter((book) => book.id !== +bookId);
       this.#setStorage(this.bookArray);
+      this.#isChildrenInDom();
     }
 
     #setStorage(data) {
@@ -112,6 +121,14 @@ window.addEventListener('DOMContentLoaded', () => {
         this.#addBook(bookObject);
         title.value = '';
         author.value = '';
+      }
+    }
+
+    #isChildrenInDom() {
+      if (bookList.hasChildNodes()) {
+        bookList.style.border = this.border;
+      } else {
+        bookList.style.border = 'none';
       }
     }
   }
