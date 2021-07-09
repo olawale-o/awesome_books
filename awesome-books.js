@@ -1,4 +1,4 @@
-/* eslint max-classes-per-file: ["error", 2] */
+/* eslint max-classes-per-file: ["error", 3] */
 window.addEventListener('DOMContentLoaded', () => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
@@ -6,6 +6,22 @@ window.addEventListener('DOMContentLoaded', () => {
   const bookList = document.querySelector('#book-list');
   const titleError = document.querySelector('#title-error');
   const authorError = document.querySelector('#author-error');
+  const list = document.querySelector('#list');
+  const addNew = document.querySelector('#add-new');
+  const contact = document.querySelector('#contact');
+  const bookContainer = document.querySelector('.book-container');
+  const books = document.querySelector('#books');
+  const form = document.querySelector('#form');
+  const contacts = document.querySelector('#contacts');
+  const year = document.querySelector('#year');
+  const navLinks = document.querySelectorAll('.nav-list a');
+  const date = document.querySelector('#date');
+  class LinkView {
+    constructor(nav, view) {
+      this.nav = nav;
+      this.view = view;
+    }
+  }
 
   class Book {
     constructor(title, author) {
@@ -136,8 +152,62 @@ window.addEventListener('DOMContentLoaded', () => {
   const bookCollection = new BookList();
   bookCollection.displayBooks();
 
+  const linkViews = [new LinkView(list, books), new LinkView(addNew, form),
+    new LinkView(contact, contacts)];
+
   addButton.addEventListener('click', (event) => {
     event.preventDefault();
     bookCollection.validate();
   });
-})
+
+  const toggleActiveLink = () => {
+    navLinks.forEach((navLink) => {
+      navLink.classList.remove('active');
+    });
+  };
+
+  const displayHide = () => {
+    for (let i = 0; i < bookContainer.children.length; i += 1) {
+      bookContainer.children[i].classList.remove('show');
+      bookContainer.children[i].classList.add('hide');
+    }
+  };
+
+  linkViews.forEach((linkView) => {
+    linkView.nav.addEventListener('click', () => {
+      toggleActiveLink();
+      displayHide();
+      linkView.nav.classList.add('active');
+      linkView.view.classList.add('show');
+    });
+  });
+
+  function numberSuffix(num) {
+    if (num >= 11 && num <= 13) return 'th';
+
+    const lastDigit = num.toString().slice(-1);
+
+    switch (lastDigit) {
+      case '1': return 'st';
+      case '2': return 'nd';
+      case '3': return 'rd';
+      default: return 'th';
+    }
+  }
+
+  /* eslint-disable */
+  const { DateTime } = luxon;
+  /* eslint-enable */
+  setInterval(() => {
+    const today = DateTime.local();
+    const format = { ...DateTime.DATETIME_MED_WITH_SECONDS, month: 'long' };
+    const modifiedDate = today.toLocaleString(format).split(' ');
+    const dayNumber = parseInt(modifiedDate[1], 10);
+    modifiedDate[1] = dayNumber + numberSuffix(dayNumber);
+    modifiedDate[modifiedDate.length - 1] = (modifiedDate[modifiedDate.length - 1]).toLowerCase();
+    date.textContent = modifiedDate.join(' ');
+  }, 1000);
+
+  const now = DateTime.now();
+  year.textContent = now.year;
+});
