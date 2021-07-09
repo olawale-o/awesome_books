@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', () => {
       this.border = '2px solid #000';
     }
 
-    #createBook(book) {
+    createBook(book) {
       const bookItem = document.createElement('li');
       bookItem.setAttribute('id', `book${book.id}`);
       bookItem.setAttribute('class', 'book-item');
@@ -72,36 +72,36 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     displayBooks() {
-      if (this.#isStorage()) {
+      if (this.isStorage()) {
         const books = this.getStorage();
         for (let i = 0; i < books.length; i += 1) {
           const book = books[i];
-          bookList.appendChild(this.#createBook(book));
+          bookList.appendChild(this.createBook(book));
         }
       }
-      this.#isChildrenInDom();
+      this.isChildrenInDom();
     }
 
-    #addBook(bookObject) {
+    addBook(bookObject) {
       bookObject.id = Date.now();
-      if (this.#isStorage()) {
+      if (this.isStorage()) {
         this.bookArray = this.getStorage();
       }
       this.bookArray.unshift(bookObject);
-      this.#setStorage(this.bookArray);
-      bookList.prepend(this.#createBook(bookObject));
-      this.#isChildrenInDom();
+      this.setStorage(this.bookArray);
+      bookList.prepend(this.createBook(bookObject));
+      this.isChildrenInDom();
     }
 
     removeBook(bookId) {
       const bookToRemove = document.querySelector(`#book${bookId}`);
       bookToRemove.parentNode.removeChild(bookToRemove);
       this.bookArray = this.getStorage().filter((book) => book.id !== +bookId);
-      this.#setStorage(this.bookArray);
-      this.#isChildrenInDom();
+      this.setStorage(this.bookArray);
+      this.isChildrenInDom();
     }
 
-    #setStorage(data) {
+    setStorage(data) {
       localStorage.setItem(this.key, JSON.stringify(data));
     }
 
@@ -109,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
       return JSON.parse(localStorage.getItem(this.key));
     }
 
-    #isStorage() {
+    isStorage() {
       if (localStorage.getItem(this.key)) {
         return true;
       }
@@ -134,13 +134,13 @@ window.addEventListener('DOMContentLoaded', () => {
         titleError.textContent = '';
         authorError.textContent = '';
         const bookObject = new Book(title.value, author.value);
-        this.#addBook(bookObject);
+        this.addBook(bookObject);
         title.value = '';
         author.value = '';
       }
     }
 
-    #isChildrenInDom() {
+    isChildrenInDom() {
       if (bookList.hasChildNodes()) {
         bookList.style.border = this.border;
       } else {
