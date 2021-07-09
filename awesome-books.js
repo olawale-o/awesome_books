@@ -152,8 +152,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const bookCollection = new BookList();
   bookCollection.displayBooks();
 
-  const linkViews = [new LinkView(list, books), new LinkView(addNew, form), 
-  new LinkView(contact, contacts)];
+  const linkViews = [new LinkView(list, books), new LinkView(addNew, form),
+      new LinkView(contact, contacts)];
 
   addButton.addEventListener('click', (event) => {
     event.preventDefault();
