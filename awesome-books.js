@@ -17,7 +17,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.querySelectorAll('.nav-list a');
   const date = document.querySelector('#date');
   class LinkView {
-
     constructor(nav, view) {
       this.nav = nav;
       this.view = view;
@@ -153,7 +152,8 @@ window.addEventListener('DOMContentLoaded', () => {
   const bookCollection = new BookList();
   bookCollection.displayBooks();
 
-  const linkViews = [new LinkView(list, books), new LinkView(addNew, form), new LinkView(contact, contacts)];
+  const linkViews = [new LinkView(list, books), new LinkView(addNew, form), 
+    new LinkView(contact, contacts)];
 
   addButton.addEventListener('click', (event) => {
     event.preventDefault();
@@ -209,5 +209,5 @@ window.addEventListener('DOMContentLoaded', () => {
   }, 1000);
 
   const now = DateTime.now();
-  year.textContent = now.year
+  year.textContent = now.year;
 });
