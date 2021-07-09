@@ -1,4 +1,4 @@
-/* eslint max-classes-per-file: ["error", 2] */
+/* eslint max-classes-per-file: ["error", 3] */
 window.addEventListener('DOMContentLoaded', () => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
@@ -7,15 +7,15 @@ window.addEventListener('DOMContentLoaded', () => {
   const titleError = document.querySelector('#title-error');
   const authorError = document.querySelector('#author-error');
   const list = document.querySelector('#list');
-  const addNew =  document.querySelector('#add-new');
+  const addNew = document.querySelector('#add-new');
   const contact = document.querySelector('#contact');
   const bookContainer = document.querySelector('.book-container');
   const books = document.querySelector('#books');
-  const form =  document.querySelector('#form');
+  const form = document.querySelector('#form');
   const contacts = document.querySelector('#contacts');
   const year = document.querySelector('#year');
   const navLinks = document.querySelectorAll('.nav-list a');
-
+  const date = document.querySelector('#date');
   class LinkView {
 
     constructor(nav, view) {
@@ -140,7 +140,7 @@ window.addEventListener('DOMContentLoaded', () => {
         author.value = '';
       }
     }
-    
+
     #isChildrenInDom() {
       if (bookList.hasChildNodes()) {
         bookList.style.border = this.border;
@@ -149,12 +149,12 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
-  
+
   const bookCollection = new BookList();
   bookCollection.displayBooks();
-  
-  const linkViews = [new LinkView(list,books), new LinkView(addNew, form), new LinkView(contact, contacts)];
-  
+
+  const linkViews = [new LinkView(list, books), new LinkView(addNew, form), new LinkView(contact, contacts)];
+
   addButton.addEventListener('click', (event) => {
     event.preventDefault();
     bookCollection.validate();
@@ -173,8 +173,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  
-  linkViews.map((linkView) => {
+  linkViews.forEach((linkView) => {
     linkView.nav.addEventListener('click', () => {
       toggleActiveLink();
       displayHide();
@@ -182,7 +181,6 @@ window.addEventListener('DOMContentLoaded', () => {
       linkView.view.classList.add('show');
     });
   });
-  
 
   function numberSuffix(num) {
     if (num >= 11 && num <= 13) return 'th';
@@ -202,7 +200,7 @@ window.addEventListener('DOMContentLoaded', () => {
   /* eslint-enable */
   setInterval(() => {
     const today = DateTime.local();
-    const format = {...DateTime.DATETIME_MED_WITH_SECONDS, month: 'long'};
+    const format = { ...DateTime.DATETIME_MED_WITH_SECONDS, month: 'long' };
     const modifiedDate = today.toLocaleString(format).split(' ');
     const dayNumber = parseInt(modifiedDate[1], 10);
     modifiedDate[1] = dayNumber + numberSuffix(dayNumber);
