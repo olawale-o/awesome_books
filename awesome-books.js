@@ -16,6 +16,27 @@ window.addEventListener('DOMContentLoaded', () => {
   const year = document.querySelector('#year');
   const navLinks = document.querySelectorAll('.nav-list a');
   const date = document.querySelector('#date');
+
+  class Storage {
+    constructor(key) {
+      this.key = key;
+    }
+
+    setStorage(data) {
+      localStorage.setItem(this.key, JSON.stringify(data));
+    }
+
+    getStorage() {
+      return JSON.parse(localStorage.getItem(this.key));
+    }
+
+    isStorage() {
+      if (localStorage.getItem(this.key)) {
+        return true;
+      }
+      return false;
+    }
+  }
   class LinkView {
     constructor(nav, view) {
       this.nav = nav;
@@ -31,7 +52,8 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   class BookList {
-    constructor() {
+    constructor(store) {
+      this.store = store;
       this.bookArray = [];
       this.key = 'books';
       this.border = '2px solid #000';
@@ -72,8 +94,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     displayBooks() {
-      if (this.isStorage()) {
-        const books = this.getStorage();
+      if (this.store.isStorage()) {
+        const books = this.store.getStorage();
         for (let i = 0; i < books.length; i += 1) {
           const book = books[i];
           bookList.appendChild(this.createBook(book));
@@ -84,11 +106,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     addBook(bookObject) {
       bookObject.id = Date.now();
-      if (this.isStorage()) {
-        this.bookArray = this.getStorage();
+      if (this.store.isStorage()) {
+        this.bookArray = this.store.getStorage();
       }
       this.bookArray.unshift(bookObject);
-      this.setStorage(this.bookArray);
+      this.store.setStorage(this.bookArray);
       bookList.prepend(this.createBook(bookObject));
       this.isChildrenInDom();
     }
@@ -96,24 +118,9 @@ window.addEventListener('DOMContentLoaded', () => {
     removeBook(bookId) {
       const bookToRemove = document.querySelector(`#book${bookId}`);
       bookToRemove.parentNode.removeChild(bookToRemove);
-      this.bookArray = this.getStorage().filter((book) => book.id !== +bookId);
-      this.setStorage(this.bookArray);
+      this.bookArray = this.store.getStorage().filter((book) => book.id !== +bookId);
+      this.store.setStorage(this.bookArray);
       this.isChildrenInDom();
-    }
-
-    setStorage(data) {
-      localStorage.setItem(this.key, JSON.stringify(data));
-    }
-
-    getStorage() {
-      return JSON.parse(localStorage.getItem(this.key));
-    }
-
-    isStorage() {
-      if (localStorage.getItem(this.key)) {
-        return true;
-      }
-      return false;
     }
 
     validate() {
@@ -149,7 +156,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  const bookCollection = new BookList();
+  const store = new Storage('books');
+  const bookCollection = new BookList(store);
   bookCollection.displayBooks();
 
   const linkViews = [new LinkView(list, books), new LinkView(addNew, form),
