@@ -1,4 +1,4 @@
-/* eslint max-classes-per-file: ["error", 3] */
+/* eslint max-classes-per-file: "error" */
 window.addEventListener('DOMContentLoaded', () => {
   const title = document.querySelector('#book-title');
   const author = document.querySelector('#book-author');
